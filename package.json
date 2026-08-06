@@ -2,6 +2,6 @@
   "name": "mentor-care",
   "version": "1.0.0",
   "dependencies": {
-    "@upstash/radis": "latest"
+    "@upstash/redis": "latest"
   }
 }
