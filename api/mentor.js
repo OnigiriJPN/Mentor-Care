@@ -11,6 +11,7 @@ export default async function handler(req, res) {
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
+        alert("内部エラーが発生しました。エラーステータスは500番台です。");
         return res.status(500).json({ error: 'Server API Key is not configured in environment variables.' });
     }
 
@@ -20,8 +21,9 @@ export default async function handler(req, res) {
     try {
         const requestCount = await kv.get(rateLimitKey) || 0;
         const DAILY_LIMIT = 20;
-
+        
         if (requestCount >= DAILY_LIMIT) {
+            alert(`本日の利用上限が、最大値に達しました (${DAILY_LIMIT}回)。また明日、メンターに会いに来てね！いつでもあなたをお待ちしています！`);
             return res.status(429).json({ 
                 error: `本日の利用上限（${DAILY_LIMIT}回）に達しました！また明日、メンターに会いに来てね🍵` 
             });
