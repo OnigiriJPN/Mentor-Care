@@ -1,1 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メンターケア 🍀</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <style>
+        /* 特殊テーマ用のカスタムスタイル */
+        body.theme-healing { background-color: #f4f7f4 !important; color: #2d3732 !important; }
+        body.theme-healing main, body.theme-healing div#resultArea { background-color: #ffffff !important; border-color: #c2d1c6 !important; }
+        body.theme-healing input, body.theme-healing select, body.theme-healing textarea { background-color: #f9fbf9 !important; color: #2d3732 !important; border-color: #c2d1c6 !important; }
 
+        body.theme-blueless { background-color: #1c1814 !important; color: #e6d5be !important; }
+        body.theme-blueless main, body.theme-blueless div#resultArea { background-color: #26211c !important; border-color: #5c4a3b !important; }
+        body.theme-blueless input, body.theme-blueless select, body.theme-blueless textarea { background-color: #1c1814 !important; color: #e6d5be !important; border-color: #5c4a3b !important; }
+
+        body.theme-rendering-less { background-color: #000000 !important; color: #00ff00 !important; font-family: monospace !important; }
+        body.theme-rendering-less main, body.theme-rendering-less div#resultArea { background-color: #050505 !important; border: 1px dashed #00ff00 !important; border-radius: 0px !important; }
+        body.theme-rendering-less input, body.theme-rendering-less select, body.theme-rendering-less textarea { background-color: #000000 !important; color: #00ff00 !important; border: 1px solid #00ff00 !important; border-radius: 0px !important; }
+        body.theme-rendering-less button { background: #00ff00 !important; color: #000000 !important; border-radius: 0px !important; font-weight: bold; }
+
+        body.theme-perf-less { background-color: #2b2b2b !important; color: #cccccc !important; font-family: 'Times New Roman', serif !important; }
+        body.theme-perf-less main, body.theme-perf-less div#resultArea { background-color: #383838 !important; border: 3px double #888888 !important; border-radius: 4px !important; }
+        body.theme-perf-less input, body.theme-perf-less select, body.theme-perf-less textarea { background-color: #222222 !important; color: #ffffff !important; border: 2px inset #555555 !important; }
+
+        body.theme-turbo { background-color: #030712 !important; color: #f3f4f6 !important; }
+        body.theme-turbo main, body.theme-turbo div#resultArea { background-color: #111827 !important; border-color: #06b6d4 !important; box-shadow: 0 0 15px rgba(6, 182, 212, 0.2); }
+        body.theme-turbo input, body.theme-turbo select, body.theme-turbo textarea { background-color: #030712 !important; color: #f3f4f6 !important; border-color: #0e7490 !important; }
+        body.theme-turbo button { background: linear-gradient(to right, #06b6d4, #3b82f6) !important; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col justify-between transition-colors duration-200" id="appBody">
+
+    <div class="container mx-auto px-4 py-8 max-w-xl">
+        <!-- ヘッダー ＆ テーマ切替え -->
+        <header class="mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-center sm:text-left">
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                    メンターケア 🍀
+                </h1>
+                <p class="text-slate-400 text-sm mt-1">AIメンターが言葉を贈ります。</p>
+            </div>
+
+            <div class="w-full sm:w-auto">
+                <label for="themeSelector" class="block text-[10px] text-slate-400 mb-1">テーマ切替え</label>
+                <select id="themeSelector" onchange="changeTheme(this.value)" class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-3 py-2 text-slate-200 focus:outline-none focus:border-pink-500 w-full sm:w-auto">
+                    <option value="system">💻 ネイティブ (OS連動)</option>
+                    <option value="dark">🌙 ダーク</option>
+                    <option value="light">☀️ ホワイト</option>
+                    <option value="healing">🌿 心安らぎテーマ</option>
+                    <option value="blueless">琥珀 ブルーライトレス</option>
+                    <option value="rendering-less">💻 レンダリングレス</option>
+                    <option value="perf-less">⏳ パフォーマンスレス</option>
+                    <option value="turbo">⚡ パフォーマンスを向上させる</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- メイン入力カード -->
+        <main class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl space-y-6">
+            <!-- キャラクター選択 -->
+            <div>
+                <label class="block text-sm font-medium mb-2">メンターのタイプを選んでね</label>
+                <select id="mentorType" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:outline-none focus:border-pink-500">
+                    <option value="heal">💖 慈愛に満ちた癒やし系（優しく包み込んでくれる）</option>
+                    <option value="tsun">🐱 ツンデレお猫様（本当は心配してくれている）</option>
+                    <option value="sparta">🔥 熱血スパルタコーチ（喝を入れて鼓舞してくれる）</option>
+                    <option value="dark">🖤 辛口毒舌メンター（ズバッと現実を突きつける）</option>
+                </select>
+            </div>
+
+            <!-- 今の気分や予定 -->
+            <div>
+                <label class="block text-sm font-medium mb-2">いまどんな気分？ または今日の予定は？</label>
+                <textarea id="userPrompt" rows="3" placeholder="例：朝起きるのがつらかった、プレゼンが緊張する、やる気が出ない..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-sm focus:outline-none focus:border-pink-500"></textarea>
+            </div>
+
+            <!-- デバッグモード切替 -->
+            <div class="flex items-center justify-between bg-slate-900/60 border border-slate-700/60 rounded-lg px-4 py-2.5">
+                <span class="text-xs font-medium text-slate-300 flex items-center gap-1.5">
+                    <span>🛠️</span> デバッグ情報（速度・トークン表示）
+                </span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="debugToggle" class="sr-only peer">
+                    <div class="w-9 h-5 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-purple-600"></div>
+                </label>
+            </div>
+
+            <!-- 送信ボタン -->
+            <button onclick="getMentorMessage()" id="submitBtn" class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-3 rounded-lg shadow transition transform active:scale-95">
+                メンターの言葉をもらう
+            </button>
+        </main>
+
+        <!-- 結果表示エリア -->
+        <div id="resultArea" class="hidden mt-6 bg-slate-800 border border-purple-500/30 rounded-2xl p-6 shadow-xl relative space-y-4">
+            <div>
+                <div class="flex justify-between items-center mb-2">
+                    <h2 id="resultTitle" class="text-xs font-bold text-purple-400 uppercase tracking-wider">Mentor's Advice</h2>
+                    <span id="remainingBadge" class="text-[10px] bg-purple-950 text-purple-300 px-2 py-0.5 rounded-full border border-purple-800/50"></span>
+                </div>
+                <p id="resultText" class="text-slate-200 leading-relaxed whitespace-pre-wrap"></p>
+            </div>
+
+            <!-- デバッグパネル -->
+            <div id="debugPanel" class="hidden border-t border-slate-700 pt-3 text-xs text-slate-400 space-y-1 bg-slate-900/40 p-3 rounded-lg font-mono">
+                <div class="text-purple-300 font-bold mb-1">🛠️ PRODUCTION METRICS</div>
+                <div id="debugTime">Response Time: - ms</div>
+                <div id="debugPromptTokens">Prompt Tokens: -</div>
+                <div id="debugCandidateTokens">Candidate Tokens: -</div>
+                <div id="debugTotalTokens">Total Tokens: -</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- フッター -->
+    <footer class="text-center py-6 text-xs text-slate-500">
+        Powered by Gemini API & Vercel KV / Serverless
+    </footer>
+
+    <!-- スクリプト -->
+    <script>
+        function changeTheme(theme) {
+            const body = document.getElementById('appBody');
+            body.className = body.className.replace(/theme-\S+/g, '');
+            body.classList.remove('bg-slate-900', 'text-slate-100', 'bg-white', 'text-slate-800');
+
+            if (theme === 'system') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                applyBaseTheme(prefersDark ? 'dark' : 'light');
+            } else if (theme === 'dark') {
+                applyBaseTheme('dark');
+            } else if (theme === 'light') {
+                applyBaseTheme('light');
+            } else {
+                body.classList.add(`theme-${theme}`);
+            }
+            localStorage.setItem('mentor_care_theme', theme);
+        }
+
+        function applyBaseTheme(mode) {
+            const body = document.getElementById('appBody');
+            if (mode === 'light') {
+                body.style.backgroundColor = '#f8fafc';
+                body.style.color = '#0f172a';
+            } else {
+                body.style.backgroundColor = '#0f172a';
+                body.style.color = '#f1f5f9';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('mentor_care_theme') || 'system';
+            document.getElementById('themeSelector').value = savedTheme;
+            changeTheme(savedTheme);
+        });
+
+        async function getMentorMessage() {
+            const mentorType = document.getElementById('mentorType').value;
+            const userPrompt = document.getElementById('userPrompt').value.trim();
+            const isDebug = document.getElementById('debugToggle').checked;
+
+            const resultArea = document.getElementById('resultArea');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultText = document.getElementById('resultText');
+            const remainingBadge = document.getElementById('remainingBadge');
+            const submitBtn = document.getElementById('submitBtn');
+            const debugPanel = document.getElementById('debugPanel');
+
+            if (!userPrompt) {
+                alert('今の気分や予定を入力してください！');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "メンターが考え中...";
+            resultArea.classList.add('hidden');
+            debugPanel.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/mentor', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mentorType, userPrompt })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                  alert("エラー: "+data.error + "ステータスコード: "+response.status);
+                    throw new Error(data.error || 'サーバーエラーが発生しました。');
+                }
+
+                resultTitle.textContent = "Mentor's Advice";
+                resultText.textContent = data.advice;
+                remainingBadge.textContent = `本日の残り無料枠: ${data.remaining}回`;
+                resultArea.classList.remove('hidden');
+
+                if (isDebug && data.usage) {
+                    document.getElementById('debugTime').textContent = `Response Time: ${data.duration} ms`;
+                    document.getElementById('debugPromptTokens').textContent = `Prompt Tokens: ${data.usage.promptTokenCount || 0}`;
+                    document.getElementById('debugCandidateTokens').textContent = `Candidate Tokens: ${data.usage.candidatesTokenCount || 0}`;
+                    document.getElementById('debugTotalTokens').textContent = `Total Tokens: ${data.usage.totalTokenCount || 0}`;
+                    debugPanel.classList.remove('hidden');
+                }
+
+            } catch (error) {
+                resultTitle.textContent = "❌ エラー";
+                resultText.textContent = error.message;
+                remainingBadge.textContent = "";
+                resultArea.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "メンターの言葉をもらう";
+            }
+        }
+    </script>
+</body>
+</html>
